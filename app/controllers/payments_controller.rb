@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-    skip_before_action :authenticate_user
+    before_action :authenticate_user
     def create
         @order =  create_razorpay_order( params[:id] )
         return @order
@@ -40,7 +40,7 @@ class PaymentsController < ApplicationController
     end
     
     def create_subscription(plan_id)
-        customer_id = "cust_MPCCzNb1X6WKKK"
+        customer_id = @current_user.customer_id
         subscription = Razorpay::Subscription.create(
           plan_id: plan_id,
           customer_id: customer_id, # 5 minutes as time.now < rajorpay_system_time when req gets there, was showing
