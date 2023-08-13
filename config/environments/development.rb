@@ -9,8 +9,8 @@ Rails.application.configure do
   config.cache_classes = false
 
 
-  config.hosts << "localhost"
-  # config.hosts << "d7fc-103-15-255-95.ngrok-free.app"
+  config.hosts << "localhost"  
+  config.hosts << "a626-103-15-255-210.ngrok-free.app"
 
   # config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    skip_before_action :authenticate_user, only: [:create, :login, :subscribe]
+    skip_before_action :authenticate_user, only: [:create, :login]
     include UsersHelper
 
     def create
@@ -55,15 +55,6 @@ class UsersController < ApplicationController
         rescue => e
             render  json: { error: e.message }, status: :internal_server_error 
         end
-    end
-
-    def subscribe
-        redirect_to payments_create_path(id: params[:plan_id])
-    end
-
-    def history
-        revision_history = @current_user.revision_histories
-        render json: revision_history, status: :ok
     end
 
     private

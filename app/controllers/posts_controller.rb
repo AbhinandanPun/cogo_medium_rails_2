@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
     before_action :authenticate_user, except: [:index, :filter, :topic]
     include PostsHelper
+
+    
     def create
         begin
             post_data = JSON.parse(post_params['post_data'])   
@@ -127,17 +129,6 @@ class PostsController < ApplicationController
             render json: { error: e.message }, status: :internal_server_error
         end
     end
-    def share
-        post = Post.find_by(post_param_id)
-        if post
-            recipient_email = params[:recipient_email]
-          
-            ShareListAndPostMailer.share_post(post, @current_user, recipient_email).deliver_now
-            render json: {message: "Post shared"}, status: :ok
-        else
-            render json: {message: 'post not found'}, status: :not_found
-        end
-    end
 
     private
     
@@ -145,7 +136,7 @@ class PostsController < ApplicationController
         params.permit(:post_data, :image)
     end
     def post_param_id
-        post_id = params.permit(:id)
+        params.permit(:id)
     end
     def more_posts_by_user
         @post.user.posts.where.not(id: @post.id).limit(5)

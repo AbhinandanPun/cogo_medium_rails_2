@@ -3,7 +3,7 @@ class CommentController < ApplicationController
     include CommentHelper
     def comment
         begin
-            @post = Post.find_by(post_param_id)
+            @post = Post.find_by(comment_id)
             if @post
                 @comment = Comment.find_by(user: @current_user, post: @post)
                 if @comment
@@ -22,7 +22,7 @@ class CommentController < ApplicationController
     end
 
     private
-    def post_param_id
+    def comment_id
         post_id = params.permit(:id)
     end
 end

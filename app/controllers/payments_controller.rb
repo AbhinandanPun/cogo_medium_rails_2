@@ -18,11 +18,8 @@ class PaymentsController < ApplicationController
     def failure
         render json: { message: "Payment failed" }, status: :bad_request
     end
-
-
-
-    private
     
+    private
     def create_razorpay_order( plan_id )
         plan = Razorpay:: Plan.fetch( plan_id ).item
         order_params = {

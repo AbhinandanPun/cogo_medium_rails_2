@@ -26,7 +26,7 @@ class ListsController < ApplicationController
             render json: { error: e.message }, status: :internal_server_error
         end
     end
-    def addToList
+    def add_to_list
         begin
             list = List.find_by(id: params[:list_id])
             listPost = ListPost.create(list: list, post_id: params[:post_id])
@@ -39,7 +39,7 @@ class ListsController < ApplicationController
             render json: { error: e.message }, status: :internal_server_error
         end
     end
-    def removeFromList
+    def remove_from_list
         begin
             list = List.find_by(id: params[:list_id])
             listPost = ListPost.find_by(list: list, post_id: params[:post_id])
@@ -52,13 +52,6 @@ class ListsController < ApplicationController
         rescue => e
             render json: { error: e.message }, status: :internal_server_error
         end
-    end
-    def shareList
-        list = List.find_by(id: params[:list_id])
-        recipient_email = params[:recipient_email]
-      
-        ShareListAndPostMailer.share_list_email(list, @current_user, recipient_email).deliver_now
-        redirect_to list, notice: "List shared successfully"
     end
     def show
         begin

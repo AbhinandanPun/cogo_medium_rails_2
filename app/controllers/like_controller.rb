@@ -3,12 +3,12 @@ class LikeController < ApplicationController
     include LikeHelper
     def like
         begin
-            @post = Post.find_by(post_param_id)
+            @post = Post.find_by(id)
             if @post
                 @like = Like.find_by(user: @current_user, post: @post)
                 if @like
                     unlike_post()
-                    render json: { message: "Post unliked successfully" }, status: :ok
+                    render json: { post:@post, message: "Post unliked successfully" }, status: :ok
                 else
                     like = like_post()
                     render json: { message: "Post liked successfully" }, status: :created
@@ -22,7 +22,7 @@ class LikeController < ApplicationController
     end
     
     private
-    def post_param_id
-        post_id = params.permit(:id)
+    def id
+        params.permit(:id)
     end
 end

@@ -1,9 +1,9 @@
 class FollowController < ApplicationController
     before_action :authenticate_user 
     include FollowHelper
-    def followUser
+    def follow_user
         begin
-            @following = User.find_by(username: params[:username])
+            @following = User.find_by(username)
             if @following == nil
                 render json: {errors: "User not found"}, status: :not_found
                 return
@@ -23,5 +23,9 @@ class FollowController < ApplicationController
         rescue => e
             render json: { error: e.message }, status: :internal_server_error 
         end
+    end
+    private
+    def username
+        params.permit(:username)
     end
 end
